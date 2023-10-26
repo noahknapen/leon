@@ -106,7 +106,7 @@ export const IS_TESTING_ENV = LEON_NODE_ENV === TESTING_ENV
 export const LANG = process.env['LEON_LANG'] as LongLanguageCode
 
 export const HOST = process.env['LEON_HOST']
-export const PORT = Number(process.env['LEON_PORT'])
+export const PORT = 8080
 
 export const TIME_ZONE = process.env['LEON_TIME_ZONE']
 
