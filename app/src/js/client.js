@@ -186,7 +186,7 @@ export default class Client {
 
   save() {
     let val = this._input.value
-
+    //! localStorage.setItem should be encrypted first. localStorage.getItem should be decrypted first.
     if (localStorage.getItem('history') === null) {
       localStorage.setItem('history', JSON.stringify([]))
       this.parsedHistory = JSON.parse(localStorage.getItem('history'))

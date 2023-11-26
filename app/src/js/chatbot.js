@@ -68,6 +68,7 @@ export default class Chatbot {
     return new Promise((resolve) => {
       if (this.parsedBubbles === null || this.parsedBubbles.length === 0) {
         this.noBubbleMessage.classList.remove('hide')
+        //! localStorage.setItem should be encrypted first. localStorage.getItem should be decrypted first.
         localStorage.setItem('bubbles', JSON.stringify([]))
         this.parsedBubbles = []
         resolve()
@@ -129,6 +130,7 @@ export default class Chatbot {
     }
 
     this.parsedBubbles.push({ who, string })
+    //! localStorage.setItem should be encrypted first. localStorage.getItem should be decrypted first.
     localStorage.setItem('bubbles', JSON.stringify(this.parsedBubbles))
     this.scrollDown()
   }
