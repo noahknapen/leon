@@ -1,19 +1,21 @@
+import lsapi from './localstorageapi'
+
 let index = -1
 let parsedHistory = null
 
 const onkeydowninput = (e, client) => {
   const key = e.which || e.keyCode
 
-  if (localStorage.getItem('history') !== null && (key === 38 || key === 40)) {
-    parsedHistory = JSON.parse(localStorage.getItem('history')).reverse()
+  if (lsapi.getItem('history') !== null && (key === 38 || key === 40)) {
+    parsedHistory = lsapi.getItem('history').reverse()
   }
 
   if (key === 13) {
     if (client.send('utterance')) {
-      parsedHistory = JSON.parse(localStorage.getItem('history')).reverse()
+      parsedHistory = lsapi.getItem('history').reverse()
       index = -1
     }
-  } else if (localStorage.getItem('history') !== null) {
+  } else if (lsapi.getItem('history') !== null) {
     if (key === 38 && index < parsedHistory.length - 1) {
       index += 1
       client.input = parsedHistory[index]

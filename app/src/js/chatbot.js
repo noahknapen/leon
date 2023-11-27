@@ -1,3 +1,5 @@
+import lsapi from './localstorageapi'
+
 const MAXIMUM_HEIGHT_TO_SHOW_SEE_MORE = 340
 
 export default class Chatbot {
@@ -6,8 +8,8 @@ export default class Chatbot {
     this.feed = document.querySelector('#feed')
     this.typing = document.querySelector('#is-typing')
     this.noBubbleMessage = document.querySelector('#no-bubble')
-    this.bubbles = localStorage.getItem('bubbles')
-    this.parsedBubbles = JSON.parse(this.bubbles)
+    this.bubbles = lsapi.getItem('bubbles')
+    this.parsedBubbles = this.bubbles
   }
 
   async init() {
@@ -68,8 +70,7 @@ export default class Chatbot {
     return new Promise((resolve) => {
       if (this.parsedBubbles === null || this.parsedBubbles.length === 0) {
         this.noBubbleMessage.classList.remove('hide')
-        //! localStorage.setItem should be encrypted first. localStorage.getItem should be decrypted first.
-        localStorage.setItem('bubbles', JSON.stringify([]))
+        lsapi.setItem('bubbles', JSON.stringify([]))
         this.parsedBubbles = []
         resolve()
       } else {
@@ -130,8 +131,7 @@ export default class Chatbot {
     }
 
     this.parsedBubbles.push({ who, string })
-    //! localStorage.setItem should be encrypted first. localStorage.getItem should be decrypted first.
-    localStorage.setItem('bubbles', JSON.stringify(this.parsedBubbles))
+    lsapi.setItem('bubbles', JSON.stringify(this.parsedBubbles))
     this.scrollDown()
   }
 }

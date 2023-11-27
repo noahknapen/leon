@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client'
 import { createRoot } from 'react-dom/client'
 
+import lsapi from './localstorageapi'
 import { Button } from './aurora/button'
 import Chatbot from './chatbot'
 import { INIT_MESSAGES } from './constants'
@@ -12,7 +13,7 @@ export default class Client {
     this._suggestionContainer = document.querySelector('#suggestions-container')
     this.serverUrl = serverUrl
     this.socket = io(this.serverUrl)
-    this.history = localStorage.getItem('history')
+    this.history = lsapi.getItem('history')
     this.parsedHistory = []
     this.info = res
     this.chatbot = new Chatbot()
@@ -158,7 +159,7 @@ export default class Client {
     })
 
     if (this.history !== null) {
-      this.parsedHistory = JSON.parse(this.history)
+      this.parsedHistory = this.history
     }
   }
 
@@ -186,10 +187,9 @@ export default class Client {
 
   save() {
     let val = this._input.value
-    //! localStorage.setItem should be encrypted first. localStorage.getItem should be decrypted first.
-    if (localStorage.getItem('history') === null) {
-      localStorage.setItem('history', JSON.stringify([]))
-      this.parsedHistory = JSON.parse(localStorage.getItem('history'))
+    if (lsapi.getItem('history') === null) {
+      lsapi.setItem('history', JSON.stringify([]))
+      this.parsedHistory = lsapi.getItem('history')
     } else if (this.parsedHistory.length >= 32) {
       this.parsedHistory.shift()
     }
@@ -200,7 +200,7 @@ export default class Client {
 
     if (this.parsedHistory[this.parsedHistory.length - 1] !== val) {
       this.parsedHistory.push(val)
-      localStorage.setItem('history', JSON.stringify(this.parsedHistory))
+      lsapi.setItem('history', JSON.stringify(this.parsedHistory))
     }
 
     this._input.value = ''
