@@ -4,28 +4,22 @@ import AES from 'crypto-js/aes'
 
 export default class LocalStorageAPI {
   static setItem(key, data) {
-    ls.config.encrypt = true
-    ls.config.secret = 'leon'
-    ls.config.encrypter = (data, secret) =>
-      AES.encrypt(JSON.stringify(data), secret).toString()
-    ls.config.decrypter = (data, secret) => {
-      try {
-        return JSON.parse(AES.decrypt(data, secret).toString(encUTF8))
-      } catch (e) {
-        // incorrect/missing secret, return the encrypted data instead
-        return data
-      }
-    }
-
+    LocalStorageAPI.configureLs()
     ls.set(key, data)
-    console.log(ls.get(key))
   }
 
   static getItem(key) {
+    LocalStorageAPI.configureLs()
+    return ls.get(key)
+  }
+
+  static configureLs() {
     ls.config.encrypt = true
     ls.config.secret = 'leon'
+
     ls.config.encrypter = (data, secret) =>
       AES.encrypt(JSON.stringify(data), secret).toString()
+
     ls.config.decrypter = (data, secret) => {
       try {
         return JSON.parse(AES.decrypt(data, secret).toString(encUTF8))
@@ -34,7 +28,5 @@ export default class LocalStorageAPI {
         return data
       }
     }
-
-    return ls.get(key)
   }
 }
