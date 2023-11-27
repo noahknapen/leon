@@ -159,7 +159,7 @@ export default class Client {
     })
 
     if (this.history !== null) {
-      this.parsedHistory = this.history
+      this.parsedHistory = JSON.parse(this.history)
     }
   }
 
@@ -189,7 +189,7 @@ export default class Client {
     let val = this._input.value
     if (lsapi.getItem('history') === null) {
       lsapi.setItem('history', JSON.stringify([]))
-      this.parsedHistory = lsapi.getItem('history')
+      this.parsedHistory = JSON.parse(lsapi.getItem('history'))
     } else if (this.parsedHistory.length >= 32) {
       this.parsedHistory.shift()
     }

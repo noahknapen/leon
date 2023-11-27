@@ -9,7 +9,7 @@ export default class Chatbot {
     this.typing = document.querySelector('#is-typing')
     this.noBubbleMessage = document.querySelector('#no-bubble')
     this.bubbles = lsapi.getItem('bubbles')
-    this.parsedBubbles = this.bubbles
+    this.parsedBubbles = JSON.parse(this.bubbles)
   }
 
   async init() {

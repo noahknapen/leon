@@ -12,7 +12,7 @@ const onkeydowninput = (e, client) => {
 
   if (key === 13) {
     if (client.send('utterance')) {
-      parsedHistory = lsapi.getItem('history').reverse()
+      parsedHistory = JSON.parse(lsapi.getItem('history')).reverse()
       index = -1
     }
   } else if (lsapi.getItem('history') !== null) {
