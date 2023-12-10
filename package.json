@@ -29,6 +29,7 @@
     "test:e2e:nlp-modules": "npm run train en && cross-env PIPENV_PIPFILE=bridges/python/src/Pipfile LEON_NODE_ENV=testing jest --forceExit --silent --verbose --setupTestFrameworkScriptFile=./test/paths.setup.js test/e2e/nlp-modules.spec.js && npm run train",
     "test:json": "jest --silent --projects test/json/json.jest.json",
     "test:over-http": "npm run generate:skills-endpoints && npm run train && cross-env PIPENV_PIPFILE=bridges/python/src/Pipfile LEON_NODE_ENV=testing LEON_HOST=http://localhost LEON_PORT=1338 LEON_HTTP_API_KEY=72aeb5ba324580963114481144385d7179c106fc jest --forceExit --silent --verbose --notify=false --bail --collectCoverage=false test/e2e/over-http.spec.js",
+    "test:localstorage": "npm run train en && cross-env PIPENV_PIPFILE=bridges/python/src/Pipfile LEON_NODE_ENV=testing jest --silent && npm run train",
     "test:module": "tsx scripts/test-module.js",
     "setup:offline": "tsx scripts/setup-offline/setup-offline.js",
     "setup:offline-stt": "tsx scripts/setup-offline/run-setup-stt.js",
@@ -67,6 +68,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-polly": "3.18.0",
+    "@babel/preset-env": "7.23.5",
     "@fastify/static": "6.12.0",
     "@ffmpeg-installer/ffmpeg": "1.1.0",
     "@ffprobe-installer/ffprobe": "1.4.1",
