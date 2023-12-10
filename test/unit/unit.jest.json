@@ -4,6 +4,7 @@
   "notify": false,
   "collectCoverage": true,
   "resetMocks": true,
+  "testEnvironment": "jsdom",
   "rootDir": "../..",
   "testMatch": ["<rootDir>/test/unit/**/*.spec.js"],
   "setupFiles": ["jest-canvas-mock", "<rootDir>/test/paths.setup.js"],
