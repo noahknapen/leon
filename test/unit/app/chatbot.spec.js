@@ -25,7 +25,7 @@ class LocalStorageMock {
 global.localStorage = new LocalStorageMock()
 
 describe('saveBubble()', () => {
-  test('Check if bubble is saved in local storage, unencrypted', () => {
+  test('Check if bubble is saved in local storage, encrypted', () => {
     const chatbot = new Chatbot()
 
     // Put the chatbot in the right state to test
