@@ -1,4 +1,3 @@
-import lsapi from './localstorageapi'
 
 const MAXIMUM_HEIGHT_TO_SHOW_SEE_MORE = 340
 
@@ -8,12 +7,9 @@ export default class Chatbot {
     this.feed = document.querySelector('#feed')
     this.typing = document.querySelector('#is-typing')
     this.noBubbleMessage = document.querySelector('#no-bubble')
-    this.bubbles = lsapi.getItem('bubbles')
-    this.parsedBubbles = JSON.parse(this.bubbles)
   }
 
   async init() {
-    await this.loadFeed()
     this.scrollDown()
 
     this.et.addEventListener('to-leon', (event) => {
@@ -61,35 +57,9 @@ export default class Chatbot {
 
   scrollDown() {
     this.feed.scrollTo(0, this.feed.scrollHeight)
-  }
+  } 
 
-  loadFeed() {
-    /**
-     * TODO: widget: load widget from local storage
-     */
-    return new Promise((resolve) => {
-      if (this.parsedBubbles === null || this.parsedBubbles.length === 0) {
-        this.noBubbleMessage.classList.remove('hide')
-        lsapi.setItem('bubbles', JSON.stringify([]))
-        this.parsedBubbles = []
-        resolve()
-      } else {
-        for (let i = 0; i < this.parsedBubbles.length; i += 1) {
-          const bubble = this.parsedBubbles[i]
-
-          this.createBubble(bubble.who, bubble.string, false)
-
-          if (i + 1 === this.parsedBubbles.length) {
-            setTimeout(() => {
-              resolve()
-            }, 100)
-          }
-        }
-      }
-    })
-  }
-
-  createBubble(who, string, save = true) {
+  createBubble(who, string) {
     const container = document.createElement('div')
     const bubble = document.createElement('p')
 
@@ -115,23 +85,7 @@ export default class Chatbot {
           showMore.innerHTML === showMoreText ? 'Show less' : showMoreText
       })
     }
-
-    if (save) {
-      this.saveBubble(who, string)
-    }
-  }
-
-  saveBubble(who, string) {
-    if (!this.noBubbleMessage.classList.contains('hide')) {
-      this.noBubbleMessage.classList.add('hide')
-    }
-
-    if (this.parsedBubbles.length === 62) {
-      this.parsedBubbles.shift()
-    }
-
-    this.parsedBubbles.push({ who, string })
-    lsapi.setItem('bubbles', JSON.stringify(this.parsedBubbles))
     this.scrollDown()
   }
+
 }

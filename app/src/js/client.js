@@ -1,7 +1,6 @@
 import { io } from 'socket.io-client'
 import { createRoot } from 'react-dom/client'
 
-import lsapi from './localstorageapi'
 import { Button } from './aurora/button'
 import Chatbot from './chatbot'
 import { INIT_MESSAGES } from './constants'
@@ -13,8 +12,6 @@ export default class Client {
     this._suggestionContainer = document.querySelector('#suggestions-container')
     this.serverUrl = serverUrl
     this.socket = io(this.serverUrl)
-    this.history = lsapi.getItem('history')
-    this.parsedHistory = []
     this.info = res
     this.chatbot = new Chatbot()
     this._recorder = {}
@@ -157,10 +154,6 @@ export default class Client {
 
       cb('audio-received')
     })
-
-    if (this.history !== null) {
-      this.parsedHistory = JSON.parse(this.history)
-    }
   }
 
   send(keyword) {
@@ -186,23 +179,6 @@ export default class Client {
   }
 
   save() {
-    let val = this._input.value
-    if (lsapi.getItem('history') === null) {
-      lsapi.setItem('history', JSON.stringify([]))
-      this.parsedHistory = JSON.parse(lsapi.getItem('history'))
-    } else if (this.parsedHistory.length >= 32) {
-      this.parsedHistory.shift()
-    }
-
-    if (val[0] === ' ') {
-      val = val.substr(1, val.length - 1)
-    }
-
-    if (this.parsedHistory[this.parsedHistory.length - 1] !== val) {
-      this.parsedHistory.push(val)
-      lsapi.setItem('history', JSON.stringify(this.parsedHistory))
-    }
-
     this._input.value = ''
   }
 
